@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Watsapp</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h3>All chats</h3>
+<form action="/chats/new" method="get">  
+    <button>New Chat</button>
+</form>
+<br><br>
+<% for(let chat of chats){ %>
+    <div class="chat">
+        <p>From: <i><%= chat.from %></i></p>
+        
+        <div class="msg">
+           <p> <%=chat.msg%></p>
+        </div>
+        <form action="/chats/<%= chat._id %>" method="GET">
+            <button class="edit">Edit message</button>
+        </form>
+
+        <form action="/chats/<%= chat._id %>?_method=DELETE " method="POST">
+            <button class="delete">DELETE</button>
+        </form>
+
+        <p>Recived by <i><%= chat.to %></i></p>
+        <hr>
+        
+        <!-- refer vedio explanation in files -->
+
+        <%if( chat.created_at.toString().split(" ")[4].split(":")[0] >12 ){%>   
+            <p>
+             <%= parseInt(chat.created_at.toString().split(" ")[4],10) -12 %>:
+             <%=chat.created_at.toString().split(" ")[4].split(":")[1] %> 
+            </p>
+            
+        <% }else{ %>
+            <p><%= chat.created_at.toString().split(" ")[4] %> </p> 
+        <% } %>
+
+
+        <p><%= chat.created_at.toString().split(" ").slice(0,4).join("--") %></p>
+        
+    </div>
+    <br><br><br>
+<% } %>
+</body>
+</html>
+
+
